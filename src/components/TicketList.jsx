@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react"
 import { getAllTickets } from "../services/TicketService.jsx"
+import { Ticket } from "./Ticket.jsx"
 import "../tickets.css"
+import { TicketFilterBar } from "./TicketFilterBar.jsx"
 
 export const TicketList = () => {
   const [allTickets, setAllTickets] = useState([])
   const [showEmergency, setShowEmergency] = useState(false)
   const [filteredTickets, setFilteredTickets] = useState([])
+  const [searchTerm, setSearchTerm] = useState("")
 
   useEffect(() => {
     getAllTickets().then(ticketsArray => {
@@ -23,27 +26,19 @@ export const TicketList = () => {
     }
   }, [showEmergency, allTickets])
 
+  useEffect(() => {
+    const foundTickets = allTickets.filter(ticket => ticket.description.toLowerCase().includes(searchTerm.toLowerCase()))
+
+    setFilteredTickets(foundTickets)
+  }, [searchTerm, allTickets])
+
   return (
     <div className="tickets-container">
       <h2>Tickets</h2>
-      <div>
-        <button className="filter-btn btn-primary" onClick={() => {setShowEmergency(true)}}>Emergency</button>
-        <button className="filter-btn btn-info" onClick={() => {setShowEmergency(false)}}>Show All</button>
-      </div>
+      <TicketFilterBar setShowEmergency={setShowEmergency} setSearchTerm={setSearchTerm}/>
       <article className="tickets">
-        {filteredTickets.map((ticket) => {
-          return (
-            <section className="ticket" key={ticket.id}>
-              <header className="ticket-info">#{ticket.id}</header>
-              <div>{ticket.description}</div>
-              <footer>
-                <div>
-                  <div className="ticket-info">Emergency</div>
-                  <div>{ticket.emergency ? "Yes" : "No"}</div>
-                </div>
-              </footer>
-            </section>
-          );
+        {filteredTickets.map((ticketObj) => {
+          return <Ticket ticket={ticketObj} key={ticketObj.id}/>
         })}
       </article>
     </div>
