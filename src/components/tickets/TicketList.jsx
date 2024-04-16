@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
-import { getAllTickets } from "../services/TicketService.jsx"
+import { getAllTickets } from "../../services/TicketService.jsx"
 import { Ticket } from "./Ticket.jsx"
-import "../tickets.css"
+import "./tickets.css"
 import { TicketFilterBar } from "./TicketFilterBar.jsx"
 
 export const TicketList = () => {

@@ -1,8 +1,12 @@
 import "./App.css"
-import { TicketList } from "./components/TicketList.jsx"
+import { EmployeesList } from "./components/employees/EmployeesList.jsx"
+import { CustomersList } from "./components/customers/CustomersList.jsx"
+import { TicketList } from "./components/tickets/TicketList.jsx"
 
 export const App = () => {
   return <>
-          <TicketList />
+          {/* <TicketList /> */}
+          {/* <CustomersList /> */}
+          <EmployeesList />
         </>
 }
